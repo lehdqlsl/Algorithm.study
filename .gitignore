@@ -1,0 +1,8 @@
+- project
+- project.exe
+- project.layout
+- 알고리즘.iml
+baekjoon/1001.o
+*.dev
+*.exe
+*.win
