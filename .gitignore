@@ -6,3 +6,5 @@ baekjoon/1001.o
 *.dev
 *.exe
 *.win
+*.o
+*.layout
