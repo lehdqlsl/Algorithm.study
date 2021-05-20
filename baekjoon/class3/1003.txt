@@ -1,0 +1,125 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Main {
+    static Node[] nodes = new Node[41];
+
+    public static void main(String[] args) throws IOException {
+        int input = InputUtil.readInteger();
+
+        for (int i = 0; i <= 40; i++) {
+            findNode(i);
+        }
+
+        for (int i = 0; i < input; i++) {
+            int n = InputUtil.readInteger();
+            Node node = findNode(n);
+            System.out.println(node);
+        }
+    }
+
+    static Node findNode(int n) {
+        if (n == 0) {
+            nodes[n] = new Node();
+            nodes[n].count_0++;
+        }
+        if (n == 1) {
+            nodes[n] = new Node();
+            nodes[n].count_1++;
+        }
+
+        if (nodes[n] == null) {
+            Node node1 = findNode(n - 1);
+            Node node2 = findNode(n - 2);
+            nodes[n] = new Node();
+            nodes[n].count_1 = node1.count_1 + node2.count_1;
+            nodes[n].count_0 = node1.count_0 + node2.count_0;
+        }
+        return nodes[n];
+    }
+
+    public static class Node {
+        int count_0 = 0;
+        int count_1 = 0;
+
+        @Override
+        public String toString() {
+            return count_0 + " " + count_1;
+        }
+    }
+
+    static class InputUtil {
+        static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        static int readInteger() throws IOException {
+            return Integer.parseInt(br.readLine());
+        }
+
+        static long readLong() throws IOException {
+            return Long.parseLong(br.readLine());
+        }
+
+        static String readString() throws IOException {
+            return br.readLine();
+        }
+
+        static List<Integer> toIntegerList() throws IOException {
+            return toIntegerList(new StringTokenizer(br.readLine()), null);
+        }
+
+        static List<Integer> toIntegerList(Custom custom) throws IOException {
+            return toIntegerList(new StringTokenizer(br.readLine()), custom);
+        }
+
+        static List<String> toStringList() throws IOException {
+            return toStringList(new StringTokenizer(br.readLine()));
+        }
+
+        static private StringTokenizer readStringTokenizer() throws IOException {
+            return new StringTokenizer(br.readLine());
+        }
+
+        static private List<Integer> toIntegerList(StringTokenizer st, Custom custom) {
+            List<Integer> list = new ArrayList<>();
+            while (st.hasMoreTokens()) {
+                int result = Integer.parseInt(st.nextToken());
+                if (custom != null) {
+                    result = custom.customMethod(result);
+                }
+                list.add(result);
+            }
+            return list;
+        }
+
+        static private int[] toIntegerArray() throws IOException {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int[] arr = new int[st.countTokens()];
+            int index = 0;
+            while (st.hasMoreTokens()) {
+                int result = Integer.parseInt(st.nextToken());
+                arr[index++] = result;
+            }
+            return arr;
+        }
+
+        static List<String> toStringList(StringTokenizer st) {
+            List<String> list = new ArrayList<>();
+            while (st.hasMoreTokens()) {
+                list.add(st.nextToken());
+            }
+            return list;
+        }
+
+        static int charToInteger(char c) {
+            return Integer.parseInt(String.valueOf(c));
+        }
+    }
+
+    interface Custom {
+        int customMethod(int num);
+    }
+}
