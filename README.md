@@ -4,3 +4,4 @@
 
 2. [클래스 차례대로 풀기](https://solved.ac/class)
 
+3. 테스트
